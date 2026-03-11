@@ -1,0 +1,102 @@
+Problema da travessia da ponte
+
+Há 4 pessoas: cientista, zelador, professora e aluno. Que precisam passar pela ponte.
+
+Cada um tem um tempo de travessia:
+
+aluno: leva 1 minuto para cruzar a ponte
+professora: leva 2 minutos
+zelador: 5 minutos
+cientista: 10 minutos
+
+O problema é: qual a sequência de travessia para que o tempo total seja no máximo de 17 minutos.
+
+Contudo, para cruzar a ponte é preciso usar uma lanterna e no máximo duas pessoas podem cruzar a ponte. Qualquer pessoa cruzando a ponte precisa segurar a lanterna.
+
+Trabalho avaliado é a modelagem:
+	1) Estados
+	2) Regras de Transição
+	3) Restrições
+	4) Visitados
+	5) Função objetivo
+
+Resolução:
+1) Estados do Problema
+Aluno → int (0 esquerda / 1 direita)
+Professora → int (0 / 1)
+Zelador → int (0 / 1)
+Cientista → int (0 / 1)
+Lanterna → int (0 / 1)
+Total → int (min)
+
+Estado Inicial
+aluno = 0
+professora = 0
+zelador = 0
+cientista = 0
+lanterna = 0
+tempoTotal = 0
+
+Estado Final
+aluno == 1
+professora == 1
+zelador == 1
+cientista == 1
+lanterna == 1
+tempoTotal <= 17
+
+2) Regras de Transição
+
+As transições representam travessias pela ponte e somente pessoas no mesmo lado da lanterna podem atravessar.
+Tempo de transição de cada pessoa:
+aluno: leva 1 minuto para cruzar a ponte
+professora: leva 2 minutos
+zelador: 5 minutos
+cientista: 10 minutos
+
+Travessia de duas pessoas possíveis para não execeder o tempo máximo de 17 minutos:
+-> aluno + professora (2 min)
+-> aluno + zelador (5 min)
+-> aluno + cientista (10 min)
+-> professora + zelador(5 min)
+-> professora + cientista(10 min)
+-> zelador + cientista(10 min)
+O tempoTotal é somado com o tempo da maior pessoa
+
+Após atravessar a ponte:
+as duas pessoas mudam de lado
+a lanterna muda de lado
+
+3) Restrições
+
+Cada travesia tem 2 pessoas no máximo
+qtdPessoas <= 2;
+
+Quem atravessa precisa estar no mesmo lado da lanterna
+Aluno(1) == lanterna(1);
+
+O tempo total não pode ser maior que 17 minutos
+tempoTotal <= 17;
+
+Se ultrapassar esse tempo, o estado é inválido.
+
+As pessoas só atravessam juntas se estiverem no mesmo lado
+Aluno(0) == Professora(0);
+
+4) Visitados
+Criar uma lista de Strings representando o estado, ex:
+estadoAtual = "00011t10"
+onde:
+aluno = 0
+professora = 0
+zelador = 0
+cientista = 1
+lanterna = 1
+tempoTotal = 10
+
+5) Função objetivo / meta:
+Todas as pessoas estão do lado direito em até 17 min.
+if(Aluno == 1 && Professora == 1 && Zelador == 1 && Cientista == 1 && Lanterna ==1 && tempoTotal <= 17){
+	return true;
+}
+
