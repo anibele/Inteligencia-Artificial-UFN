@@ -1,50 +1,57 @@
-%base.pl
-%fatos
-	%sentenças ou predicados ou assinaturas de funções
+% Fatos de Jogos
+% jogo(Sigla, Nome, Idade, Categoria).
+jogo(cs, 'Counter Strike', 16, fps).
+jogo(lol, 'League of Legends', 18, moba).
+jogo(aid, 'Alone in the Dark', 16, su).
+jogo(gta, 'Grand Theft Auto', 18, sb).
+jogo(mc, 'Minecraft', 0, sb).
 
-%regras
+% Categorias
+tipo(sb, 'Sandbox').
+tipo(fps, 'First Person Shooter').
 
-jogo("CS","Counter Strike",16,"FPS").
-jogo("LOL","League of Legends",18,"MOBA").
-jogo("AID","Alone in the dark",16, "SU").
-jogo("GTA","Grand Thief Auto",18, "SB").
-jogo("MC","Minecraft",0,"SB").
+% Regra de indicação livre usando unificação direta
+indicacaolivre(Nome) :- jogo(_, Nome, 0, _).
 
-tipo("SB","Sandbox").
-tipo("FPS","First person shooter").
-tipo("MOBA","Multiplayer online battle arena").
-tipo("SU","Survivor").
+% Árvore Genealógica
+progenitor(herbert, cleber).
+progenitor(herbert, homer).
+progenitor(homer, bart).
+progenitor(homer, lisa).
+progenitor(homer, meg).
+progenitor(marge, bart).
+progenitor(marge, lisa).
+progenitor(marge, meg).
+progenitor(bart, alex).
+progenitor(bart, tina).
 
-% Ex de pesquisa: 
-% jogo(Sigla,Nome,Idade,"SB").
+% Regras de Parentesco
+avo(A, N) :- 
+    progenitor(A, P), 
+    progenitor(P, N).
 
-%Regras são sentenças com variáveis acompanhadas por :- (Se somente se)
+irmaos(A, B) :- 
+    progenitor(P, A), 
+    progenitor(P, B), 
+    A \= B.
 
-indicacaolivre(NomeJogo) :-
-    jogo(_,NomeJogo,Idade,_),
-    Idade == 0.
+tio(T, S) :- 
+    progenitor(P, S), 
+    irmaos(P, T).
 
-progenitor(herbert,cleber).
-progenitor(herbert,homer).
-progenitor(homer,bart).
-progenitor(homer,lisa).
-progenitor(homer,meg).
-progenitor(marge,bart).
-progenitor(marge,lisa).
-progenitor(marge,meg).
-progenitor(bart,alex).
-progenitor(bart,tina).
+sobrinho(S, T) :- 
+    tio(T, S).
 
-avo(A,N) :-
-    progenitor(A,P),
-    progenitor(P,N).
-% Ex de pesquisa: 
-% avo(herbert,N).
+primo(X, Y) :- 
+    progenitor(P1, X),
+    progenitor(P2, Y),
+    irmaos(P1, P2).
 
-irmaos(A,B) :-  progenitor(P,A),
-    			progenitor(P,B),
-    			A \= B.
+cunhado(C, P) :- 
+    casal(P, Conjuge), irmaos(Conjuge, C).
 
-tio(T,S) :-
-    irmaos(I,T),
-    progenitor(I,S).
+cunhado(C, P) :- 
+    irmaos(P, Irmao), casal(Irmao, C).
+	
+neto(N, A) :- 
+    avo(A, N).
