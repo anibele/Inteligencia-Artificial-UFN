@@ -1,134 +1,672 @@
-Inteligência Artificial - Técnicas ou metodologias
-    -Sistemas de comportamento Inteligente
-        -Base de conhecimento
-            -Armazenamento de experiência(PROLOG; SMA)
-        -Motor de raciocínio / raciocínio automatizado (dedução, indução)
-            -(Métodos de busca; SMA)
-            -Cegos: Amplitude e profundidade
-            -Heuristicos: Subida de encosta, guloso, A*, Algoritmos Genéticos
-        -Aprendizado de máquina - Reconhecer padrões de repetição (com amostras)
-            -Redes neurais
+# Aula 02 - Técnicas e Metodologias de Inteligência Artificial
 
-    -Métodos de busca
-        -Modelagem de problema / Solução
-        1)Estados (inicial/construtor, intermediario/construtor2, final)
-        2)Regras de transição -> metodos que modificam o objeto
-        3)Restrições - estados que não podem ser gerados
-        4)Visitados - lista, árvore ou hasmap
-        5)Função objetivo
+---
 
-    A) Problema das torres de hanoi
-    
-    Estados
-        //toda pilha tem os seguintes comandos: empty, peek, push/add, pop/remove
-        Stack t1 = new Stack();
-        Stack t2 = new Stack();
-        Stack t3 = new Stack();
+# Sistemas de Comportamento Inteligente
 
-    Estado inicial
-        t1.push(3)
-        t1.push(2)
-        t1.push(1)
-    
-    Estado final ou função objetivo / meta
-        t1.empty() && t2.empty()
-    
-    Regras de transição
-        r1 - mover t1 para t2
-        if ehValido(t1,t2){
-            public void moverT1_T2(){
-                t2.push(t1.pop());
-            }
-            Estado novo = new Estado(t1,t2,t3,"movendo topo t1 para topo t2")
-            if(visitados.contains(novo)){
-                visitados.add(novo);
-            }
-        }
+A Inteligência Artificial pode ser vista como a combinação de três grandes componentes:
 
-        r1 - mover t1 para t3
-        public void moverT1_T3(){
-            t3.push(t1.pop());
-        }
+```text
+                Sistema Inteligente
+                        │
+        ┌───────────────┼───────────────┐
+        ▼               ▼               ▼
+ Base de          Motor de         Aprendizado
+ Conhecimento     Raciocínio       de Máquina
+```
 
-        r1 - mover t2 para t1
-        public void moverT2_T1(){
-            t1.push(t2.pop());
-        }
+---
 
-        r1 - mover t2 para t3
-        public void moverT2_T3(){
-            t3.push(t2.pop());
-        }
+# 1. Base de Conhecimento
 
-        r1 - mover t3 para t1
-        public void moverT3_T1(){
-            t1.push(t3.pop());
-        }
+Responsável por armazenar informações, fatos, regras e experiências acumuladas pelo sistema.
 
-        r1 - mover t3 para t2
-        public void moverT1_T2(){
-            t2.push(t3.pop());
-        }
-    
-    Restrição
-        public boolean ehValido(Origem, Stack Destino){
-            if(Origem.empty()){
-                return false;
-            }
-            if((int)Origem.peak() > (int)(Destino.peek)){
-                return false;
-            }
+É a memória do sistema inteligente.
 
-            return true;
-        }
-    
-    Visitados - Lista ou árvore ou Hashmap
+## Funções
 
-    B) Problema das Jarras
-    jarra1 suporta 4 litros
-    jarra2 suporta 3 litros
-    torneira que jorra água infinitamente
-    objetivo: deixar em uma das jarras 2 litros
+- Armazenar conhecimento;
+- Representar experiências anteriores;
+- Permitir consultas e inferências;
+- Fornecer dados para o processo de tomada de decisão.
 
-    class Estado{
-        int j1;
-        int j2;
+## Tecnologias Relacionadas
 
-        public Estado(int j1, int j2){
-            this.j1 = j1;
-            this.j2 = j2;
-        }
+- Prolog;
+- Sistemas Multiagentes (SMA);
+- Sistemas Especialistas;
+- Bancos de Conhecimento.
 
-        public boolean ehMeta(){
-            return (this.j1 == 2 & this.j2 == 0 || this.j1 == 0 & this.j2 == 2);
-        }
+---
 
-        public void encherj1(){
-            this.j1 = 4;
-        }
+# 2. Motor de Raciocínio
 
-        public void encherj2(){
-            this.j2 = 3;
-        }
+Responsável por utilizar o conhecimento armazenado para gerar conclusões e tomar decisões.
 
-        public void esvaziarj1(){
-            this.j1 = 0;
-        }
+Também é chamado de:
 
-        public void esvaziarj2(){
-            this.j2 = 0;
-        }
+- Raciocínio Automatizado;
+- Mecanismo de Inferência;
+- Motor de Inferência.
 
-        public void despejarj2_j1(){
-            int j1 = this.j1;
-            int j2 = this.j2;
+---
 
-            if(j2 > (4 - j1)){
-                j2 = j2 - (4 - j1);
-                j1 = 4;
-            }else{
-                j1 = j1 + j2;
-                j2 = 0;
-            }
-        }
+## Tipos de Raciocínio
+
+### Dedução
+
+Parte de regras gerais para obter conclusões específicas.
+
+```text
+Geral → Específico
+```
+
+### Indução
+
+Parte de exemplos específicos para construir uma regra geral.
+
+```text
+Específico → Geral
+```
+
+---
+
+# Métodos de Busca
+
+Os métodos de busca são utilizados para encontrar soluções em espaços de estados.
+
+A solução é obtida através da exploração de estados possíveis até encontrar a meta.
+
+---
+
+## Buscas Cegas (Não Informadas)
+
+Não possuem conhecimento adicional sobre o problema.
+
+Apenas exploram os estados disponíveis.
+
+### Busca em Amplitude (BFS)
+
+Explora todos os estados de um nível antes de avançar para o próximo.
+
+#### Características
+
+- Completa;
+- Garante o menor caminho (quando os custos são iguais);
+- Consome muita memória.
+
+```text
+Nível 0
+   A
+  / \
+ B   C
+/ \ / \
+D E F G
+```
+
+Ordem:
+
+```text
+A → B → C → D → E → F → G
+```
+
+---
+
+### Busca em Profundidade (DFS)
+
+Explora um caminho até o máximo possível antes de retornar.
+
+#### Características
+
+- Baixo consumo de memória;
+- Pode encontrar soluções rapidamente;
+- Não garante o menor caminho;
+- Pode entrar em caminhos muito longos.
+
+```text
+A → B → D
+```
+
+Somente após retornar:
+
+```text
+A → B → E → C ...
+```
+
+---
+
+## Buscas Heurísticas (Informadas)
+
+Utilizam informações adicionais para direcionar a busca.
+
+O objetivo é reduzir a quantidade de estados explorados.
+
+---
+
+### Subida de Encosta (Hill Climbing)
+
+Sempre escolhe o vizinho que parece melhor.
+
+#### Vantagem
+
+- Simples;
+- Rápida.
+
+#### Desvantagem
+
+- Pode ficar presa em máximos locais.
+
+```text
+Estado Atual
+      ↓
+ Melhor Vizinho
+      ↓
+ Melhor Vizinho
+      ↓
+ Solução (ou máximo local)
+```
+
+---
+
+### Busca Gulosa (Greedy Search)
+
+Escolhe o estado que parece mais próximo da solução.
+
+Utiliza uma função heurística:
+
+```text
+h(n)
+```
+
+Onde:
+
+- `h(n)` = estimativa da distância até a meta.
+
+---
+
+### Busca A*
+
+Uma das técnicas mais importantes da IA clássica.
+
+Utiliza:
+
+```text
+f(n) = g(n) + h(n)
+```
+
+Onde:
+
+- `g(n)` = custo real percorrido;
+- `h(n)` = estimativa até a meta;
+- `f(n)` = custo total estimado.
+
+:contentReference[oaicite:0]{index=0}
+
+### Vantagens
+
+- Completa;
+- Ótima (encontra a melhor solução quando a heurística é admissível);
+- Muito utilizada em jogos e planejamento de rotas.
+
+---
+
+### Algoritmos Genéticos
+
+Inspirados na evolução biológica.
+
+Baseiam-se em:
+
+- População;
+- Seleção;
+- Cruzamento;
+- Mutação;
+- Aptidão (Fitness).
+
+Fluxo básico:
+
+```text
+População Inicial
+        ↓
+ Avaliação
+        ↓
+ Seleção
+        ↓
+ Cruzamento
+        ↓
+ Mutação
+        ↓
+ Nova Geração
+```
+
+---
+
+# 3. Aprendizado de Máquina
+
+Permite que sistemas aprendam padrões a partir de exemplos.
+
+Em vez de programar explicitamente todas as regras, o sistema aprende observando dados.
+
+---
+
+## Objetivos
+
+- Classificar;
+- Prever;
+- Reconhecer padrões;
+- Detectar anomalias;
+- Tomar decisões.
+
+---
+
+## Redes Neurais Artificiais (RNA)
+
+Modelo inspirado no funcionamento dos neurônios biológicos.
+
+São amplamente utilizadas para:
+
+- Reconhecimento facial;
+- Reconhecimento de voz;
+- Processamento de linguagem natural;
+- Visão computacional;
+- Sistemas de recomendação.
+
+---
+
+# Modelagem de Problemas para Busca
+
+Independentemente do problema, a modelagem geralmente segue os mesmos componentes.
+
+---
+
+## 1. Estados
+
+Representam todas as situações possíveis do problema.
+
+### Tipos de Estado
+
+#### Estado Inicial
+
+Ponto de partida.
+
+#### Estados Intermediários
+
+Situações geradas durante a busca.
+
+#### Estado Final (Meta)
+
+Objetivo que deve ser alcançado.
+
+---
+
+## 2. Regras de Transição
+
+Definem as operações permitidas.
+
+São responsáveis por gerar novos estados.
+
+Na implementação normalmente correspondem a métodos.
+
+---
+
+## 3. Restrições
+
+Definem estados inválidos.
+
+Impedem que o algoritmo gere soluções impossíveis.
+
+---
+
+## 4. Estrutura de Visitados
+
+Armazena estados já explorados.
+
+Pode ser implementada com:
+
+- Lista;
+- Árvore;
+- HashMap;
+- HashSet.
+
+Objetivos:
+
+- Evitar ciclos;
+- Evitar processamento repetido;
+- Melhorar desempenho.
+
+---
+
+## 5. Função Objetivo (Meta)
+
+Determina quando a solução foi encontrada.
+
+---
+
+# Problema das Torres de Hanói
+
+Um dos problemas clássicos de IA e Recursão.
+
+---
+
+## Objetivo
+
+Mover todos os discos da torre inicial para outra torre.
+
+---
+
+## Regras
+
+1. Apenas um disco pode ser movido por vez;
+2. Nunca colocar um disco maior sobre um menor;
+3. Utilizar as torres auxiliares quando necessário.
+
+---
+
+## Representação dos Estados
+
+```java
+Stack t1 = new Stack();
+Stack t2 = new Stack();
+Stack t3 = new Stack();
+```
+
+Cada pilha representa uma torre.
+
+---
+
+## Estado Inicial
+
+```java
+t1.push(3);
+t1.push(2);
+t1.push(1);
+```
+
+Representação:
+
+```text
+T1: 3 2 1
+T2:
+T3:
+```
+
+---
+
+## Estado Meta
+
+Todos os discos devem estar em outra torre.
+
+Exemplo:
+
+```java
+t1.empty() && t2.empty()
+```
+
+Representação:
+
+```text
+T1:
+T2:
+T3: 3 2 1
+```
+
+---
+
+## Regras de Transição
+
+Movimentos possíveis:
+
+```text
+T1 → T2
+T1 → T3
+T2 → T1
+T2 → T3
+T3 → T1
+T3 → T2
+```
+
+Cada movimento gera um novo estado.
+
+---
+
+## Restrição
+
+Movimentos inválidos não podem ocorrer.
+
+```java
+public boolean ehValido(Stack origem,
+                        Stack destino)
+{
+    if(origem.empty())
+        return false;
+
+    if(!destino.empty() &&
+       (int)origem.peek() >
+       (int)destino.peek())
+        return false;
+
+    return true;
+}
+```
+
+### Exemplo Inválido
+
+```text
+  1
+  2
+  3
+```
+
+Mover:
+
+```text
+3 → 1
+```
+
+Não permitido.
+
+---
+
+## Visitados
+
+Podem ser armazenados em:
+
+- Lista;
+- Árvore;
+- HashMap;
+- HashSet.
+
+Evita revisitar estados já explorados.
+
+---
+
+# Problema das Jarras
+
+Outro problema clássico de busca.
+
+---
+
+## Situação
+
+Existem:
+
+- Uma jarra de 4 litros;
+- Uma jarra de 3 litros;
+- Uma fonte infinita de água.
+
+---
+
+## Objetivo
+
+Obter exatamente:
+
+```text
+2 litros
+```
+
+em uma das jarras.
+
+---
+
+## Representação do Estado
+
+```java
+class Estado{
+    int j1;
+    int j2;
+
+    public Estado(int j1, int j2){
+        this.j1 = j1;
+        this.j2 = j2;
     }
+}
+```
+
+---
+
+## Estado Inicial
+
+```text
+(0,0)
+```
+
+Ambas as jarras vazias.
+
+---
+
+## Estado Meta
+
+```java
+public boolean ehMeta(){
+    return (
+        (j1 == 2 && j2 == 0) ||
+        (j1 == 0 && j2 == 2)
+    );
+}
+```
+
+---
+
+## Operadores (Regras de Transição)
+
+### Encher Jarra 1
+
+```java
+encherJ1()
+```
+
+Resultado:
+
+```text
+(4, j2)
+```
+
+---
+
+### Encher Jarra 2
+
+```java
+encherJ2()
+```
+
+Resultado:
+
+```text
+(j1, 3)
+```
+
+---
+
+### Esvaziar Jarra 1
+
+```java
+esvaziarJ1()
+```
+
+Resultado:
+
+```text
+(0, j2)
+```
+
+---
+
+### Esvaziar Jarra 2
+
+```java
+esvaziarJ2()
+```
+
+Resultado:
+
+```text
+(j1, 0)
+```
+
+---
+
+### Despejar Jarra 2 em Jarra 1
+
+Transfere água até:
+
+- J1 ficar cheia; ou
+- J2 ficar vazia.
+
+```java
+despejarJ2_J1()
+```
+
+---
+
+## Exemplo de Solução
+
+```text
+(0,0)
+↓
+(0,3)
+↓
+(3,0)
+↓
+(3,3)
+↓
+(4,2)
+↓
+(0,2)
+```
+
+Meta alcançada.
+
+---
+
+# Resumo Geral
+
+Todo problema clássico de busca em IA pode ser modelado utilizando:
+
+1. Estado Inicial;
+2. Estados Intermediários;
+3. Estado Meta;
+4. Regras de Transição;
+5. Restrições;
+6. Estrutura de Visitados;
+7. Algoritmo de Busca.
+
+---
+
+# Conceitos-Chave para Memorizar
+
+| Conceito | Definição |
+|-----------|------------|
+| Estado | Situação atual do problema |
+| Estado Inicial | Ponto de partida |
+| Estado Meta | Objetivo desejado |
+| Transição | Mudança entre estados |
+| Restrição | Regra que impede estados inválidos |
+| Visitados | Estados já explorados |
+| BFS | Busca em Amplitude |
+| DFS | Busca em Profundidade |
+| Busca Gulosa | Escolhe o estado aparentemente mais promissor |
+| A* | Usa custo real + heurística |
+| Hill Climbing | Sempre sobe para o melhor vizinho |
+| Algoritmo Genético | Busca baseada na evolução biológica |
+| RNA | Rede Neural Artificial |
+| Heurística | Informação utilizada para guiar a busca |
+|

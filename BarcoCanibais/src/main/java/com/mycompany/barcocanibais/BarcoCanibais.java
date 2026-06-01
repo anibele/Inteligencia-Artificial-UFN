@@ -12,7 +12,7 @@ public class BarcoCanibais {
     static List<String> movimentos = new ArrayList<>();
 
     /**
-     * Método principal que inicia a execução do algoritmo.
+     * Metoodo principal que inicia a execução do algoritmo.
      */
     public static void main(String[] args) {
 
