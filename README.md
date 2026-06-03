@@ -69,4 +69,5 @@ Aluno responsável pelo repositório: Gustavo Anibele
 
 Este repositório possui finalidade exclusivamente educacional e acadêmica. 
 Qualquer dúvida ou problema pode ser tratado pelo e-mail de contato a seguir.
-[![E-mail](https://shields.io)](mailto:gustavoanibele@gmail.com)
+
+[Entre em contato por e-mail](mailto:gustavoanibele@gmail.com)
