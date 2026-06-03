@@ -61,11 +61,11 @@ Este repositório foi criado para:
 
 ## Informações
 
-Instituição acadêmica: **Universidade Franciscana (UFN)**
-Curso: **Sistemas de informação**
-Disciplina: **Inteligência Artificial**
-Professor da disciplina: Alexandre Zamberlan
-Aluno responsável pelo repositório: Gustavo Anibele
+- Instituição acadêmica: **Universidade Franciscana (UFN)**
+- Curso: **Sistemas de informação**
+- Disciplina: **Inteligência Artificial**
+- Professor da disciplina: Alexandre Zamberlan
+- Aluno responsável pelo repositório: Gustavo Anibele
 
 Este repositório possui finalidade exclusivamente educacional e acadêmica. 
 Qualquer dúvida ou problema pode ser tratado pelo e-mail de contato a seguir.
